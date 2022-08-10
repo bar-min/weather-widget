@@ -1,11 +1,33 @@
 <template>
   <div class="weather" v-for="config in weather" :key="config.id">
     <div class="weather__widget">
-      <div class="widget">
-  
+
+      <div class="weather__config config" v-if='config.settings'>
+
+        <div class="config__header">
+          <h3 class="config__title">Settings</h3>
+          <div class="config__close" @click="showSettings(config)"></div>
+        </div>
+
+        <div class="config__field">
+          <input v-model="city" placeholder="Search location" @keyup.enter="getWeatherData(city)" />
+          <button @click="getWeatherData(city)"></button>
+        </div>
+
+        <div class="config__locations">
+          <div class="location" v-for="item in weather" :key="item.id">
+            <div class="location__move"></div>
+            <div class="location__city"> {{ item.name }}, {{ item.sys.country }} </div>
+            <div class="location__remove"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="widget"  v-if="!config.settings">
         <div class="widget__settings settings">
           <h3 class="settings__location"> {{ config.name }}, {{ config.sys.country }} </h3>
-          <div class="settings__open"></div>
+          <div class="settings__gear" @click="showSettings(config)"></div>
         </div>
         
         <div class="widget__condition condition">
@@ -25,13 +47,13 @@
         
         <div class="widget__params params">
           <div class="params__list">
-            <div class="params__speed icon"> {{ config.wind.speed + 'm/s'}} </div>
+            <div class="params__speed icon"> {{ validUnits(config.wind.speed, 'm/s')}} </div>
             <div class="params__sunset icon"> {{ validDate(config.sys.sunset) }} </div>
-            <div class="params__humidity icon"> {{ config.main.humidity + '%' }} </div>
+            <div class="params__humidity icon"> {{ validUnits(config.main.humidity, '%') }} </div>
           </div>
 
           <div class="params__list">
-            <div class="params__pressure icon"> {{ config.main.pressure + 'hpA' }} </div>
+            <div class="params__pressure icon"> {{ validUnits(config.main.pressure, 'hpA') }} </div>
             <div class="params__sunrise icon"> {{ validDate(config.sys.sunrise) }} </div>
             <div class="params__visibility icon"> {{ validDistance(config.visibility) }} </div>
           </div>
@@ -51,20 +73,23 @@ export default {
       weather: [],
       city: 'London',
       key: '08eacdfc0c9a045a4f2e9dfb587137a3',
-      imgURL: 'https://openweathermap.org/img/wn'
+      imgURL: 'https://openweathermap.org/img/wn',
     }
   },
   
   mounted(){
-    this.getWeatherData();
+    this.getWeatherData(this.city);
   },
 
   computed: {
+    validUnits(){
+      return (value, unit = '') => value + '\n' + unit;
+    },
     validURL(){
       return (icon) => this.imgURL + '/' + icon + '.png';
     },
     validDistance(){
-      return (value, unit = 'km') => (value / 1000).toFixed(1) + unit;
+      return (value, unit = 'km') => (value / 1000).toFixed(1) + '\n' + unit;
     },
     validDate(){
       return (ms) => {
@@ -79,8 +104,8 @@ export default {
   },
 
   methods: {
-    async getWeatherData(){
-      let { lat, lon } = await this.getCoords();
+    async getWeatherData(city){
+      let { lat, lon } = await this.getCoords(city);
 
       let params = new URLSearchParams({
         appid: this.key,
@@ -94,19 +119,34 @@ export default {
       let data = await response.json();
 
       this.setWeather(data);
+
+      this.clearInput();
     },
 
-    async getCoords(){
-      let city = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${this.city}&appid=${this.key}`);
-
+    async getCoords(location){
+      let city = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=${this.key}`);
+    
       let [ coords ] = await city.json();
 
       return coords;
     },
 
     setWeather(data){
+      data.settings = false;
+      data.idx = Date.now();
       this.weather.push(data);
-      console.log(this.weather)
+    },
+
+    showSettings(widget){
+      this.weather.forEach((item) => {
+        if(item.idx === widget.idx){
+          item.settings = !item.settings;
+        }
+      })
+    },
+
+    clearInput(){
+      this.city = '';
     }
   },
 
@@ -125,21 +165,100 @@ export default {
 
 .weather {
   max-width: 320px;
+  min-height: 200px;
   background: linear-gradient(180deg, #6a6d9c 0%, rgba(255, 255, 255, 0) 100%), #1d2362;
   color:#f9ffff;
   border: 0.5px solid #7582F4;
-  border-radius: 10%;
+  border-radius: 40px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 12px 18px;
+
+   .config{
+    &__header{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    &__close{
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      background: url('./assets/icons/close.svg') no-repeat;
+      transition: all 0.3s;
+      &:hover{
+        transform: scale(1.15);
+      }
+    }
+    &__field{
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      & > input {
+        font-family: inherit;
+        font-size: 18px;
+        width: 80%;
+        padding: 10px;
+        border-radius: 4px;
+        outline: none;
+        border: none;
+      }
+      & > button {
+        cursor: pointer;
+        position: absolute;
+        width: 24px;
+        height: 100%;
+        border: none;
+        top: 50%;
+        transform: translateY(-50%);
+        background: url('@/assets/icons/enter.svg') center no-repeat;
+        background-size: contain;
+      }
+    }
+    &__locations{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 50px;
+    }
+    .location {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px;
+      margin: 0 12px;
+      border-radius: 10px;
+      background-color: rgba(255,255,255, 0.15);
+      &__move{
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        background: url('@/assets/icons/move.svg') center no-repeat;
+      }
+      &__city{
+        flex: 1 1 auto;
+      }
+      &__remove{
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        background: url('@/assets/icons/remove.svg') center no-repeat;
+        transition: all 0.3s;
+        &:hover{
+          transform: scale(1.15);
+        }
+      }
+    }
+  }
 
   .widget{
-    padding: 12px 18px;
     &__settings{
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
     }
     .settings{
-      &__open{
+      &__gear{
         cursor: pointer;
         width: 24px;
         height: 24px;
@@ -174,8 +293,8 @@ export default {
        }
       &__description{
         & > p {
-          margin: 0px 10px;
-          padding: 5px;
+          margin: 0px;
+          padding: 7.5px 15px;
           background-color: rgb(255 255 255 / 9%);
           border-radius: 10px;
         }
