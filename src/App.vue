@@ -78,7 +78,7 @@ export default {
   },
   
   mounted(){
-    this.getWeatherData(this.city);
+    this.addWidget();
   },
 
   computed: {
@@ -135,8 +135,20 @@ export default {
       data.settings = false;
       data.idx = Date.now();
       this.weather.push(data);
+      this.saveWeather();
     },
 
+    addWidget(){
+      let widget = this.getWeatherStorage();
+      
+      if(widget){
+        this.weather = widget;
+        return;
+      }
+
+      this.getWeatherData(this.city);
+    },
+    
     showSettings(widget){
       this.weather.forEach((item) => {
         if(item.idx === widget.idx){
@@ -149,6 +161,21 @@ export default {
       if(this.weather.length <= 1) return;
       let id = this.weather.findIndex(item => item.idx === idx);
       this.weather.splice(id, 1);
+      this.saveWeather();
+    },
+
+    saveWeather(){
+      if(!this.weather.length) return;
+      localStorage.setItem('weather', JSON.stringify(this.weather));
+    },
+
+    getWeatherStorage(){
+      let weather = localStorage.getItem('weather');
+      if(weather){
+        let data = JSON.parse(weather)
+        data.forEach(item => item.settings = false)
+        return data;
+      } 
     },
 
     clearInput(){
@@ -178,6 +205,7 @@ export default {
   border-radius: 40px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   padding: 12px 18px;
+  margin: 10px;
 
    .config{
     &__header{
