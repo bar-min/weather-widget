@@ -29,7 +29,7 @@
 
       </div>
 
-      <div class="widget"  v-if="!config.settings">
+      <div class="widget" v-if="!config.settings">
         <div class="widget__settings settings">
           <h3 class="settings__location"> {{ config.name }}, {{ config.sys.country }} </h3>
           <div class="settings__gear" @click="showSettings(config)"></div>
@@ -161,6 +161,8 @@ export default {
       this.weather.forEach((item) => {
         if(item.idx === widget.idx){
           item.settings = !item.settings;
+        } else {
+          item.settings = false;
         }
       })
     },
