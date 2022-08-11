@@ -18,7 +18,7 @@
           <div class="location" v-for="item in weather" :key="item.id">
             <div class="location__move"></div>
             <div class="location__city"> {{ item.name }}, {{ item.sys.country }} </div>
-            <div class="location__remove"></div>
+            <div @click="deleteWidget(item.idx)" class="location__remove"></div>
           </div>
         </div>
 
@@ -143,6 +143,12 @@ export default {
           item.settings = !item.settings;
         }
       })
+    },
+
+    deleteWidget(idx){
+      if(this.weather.length <= 1) return;
+      let id = this.weather.findIndex(item => item.idx === idx);
+      this.weather.splice(id, 1);
     },
 
     clearInput(){
