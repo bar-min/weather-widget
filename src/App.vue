@@ -1,5 +1,5 @@
 <template>
-  <div class="weather" v-for="config in weather" :key="config.id">
+  <div class="weather" v-for="config in weather" :key="config.idx">
     <div class="weather__widget">
 
       <div class="weather__config config" v-if='config.settings'>
@@ -15,8 +15,13 @@
         </div>
 
         <div class="config__locations">
-          <div class="location" v-for="item in weather" :key="item.id">
-            <div class="location__move"></div>
+          <div class="location" 
+            v-for="item in weather" :key="item.idx"
+            @drop="onDrop($event, item.idx)" 
+            @dragover.prevent 
+            @dragenter.prevent>
+
+            <div @dragstart='onDrag($event, item)' draggable="true" class="location__move"></div>
             <div class="location__city"> {{ item.name }}, {{ item.sys.country }} </div>
             <div @click="deleteWidget(item.idx)" class="location__remove"></div>
           </div>
@@ -71,7 +76,8 @@ export default {
   data(){
     return {
       weather: [],
-      city: 'London',
+      city: '',
+      default: 'London',
       key: '08eacdfc0c9a045a4f2e9dfb587137a3',
       imgURL: 'https://openweathermap.org/img/wn',
     }
@@ -105,6 +111,8 @@ export default {
 
   methods: {
     async getWeatherData(city){
+      if(!city) return;
+
       let { lat, lon } = await this.getCoords(city);
 
       let params = new URLSearchParams({
@@ -146,7 +154,7 @@ export default {
         return;
       }
 
-      this.getWeatherData(this.city);
+      this.getWeatherData(this.default);
     },
     
     showSettings(widget){
@@ -180,7 +188,21 @@ export default {
 
     clearInput(){
       this.city = '';
-    }
+    },
+
+    onDrag(event, location){
+      event.dataTransfer.dropEffect = 'move';
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('locationID', location.idx)
+    },
+    
+    onDrop(event, idx){
+      let locationID = event.dataTransfer.getData('locationID');
+      let dropIndex = this.weather.findIndex(item => item.idx == idx);
+      let dragIndex = this.weather.findIndex(item => item.idx == locationID);
+      this.weather.splice(dropIndex, 0, this.weather.splice(dragIndex, 1)[0]);
+      this.saveWeather();
+    },
   },
 
   components: {}
@@ -197,14 +219,14 @@ export default {
 }
 
 .weather {
-  max-width: 320px;
   min-height: 200px;
+  display: inline-flex;
   background: linear-gradient(180deg, #6a6d9c 0%, rgba(255, 255, 255, 0) 100%), #1d2362;
   color:#f9ffff;
   border: 0.5px solid #7582F4;
   border-radius: 40px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  padding: 12px 18px;
+  padding: 12px 24px;
   margin: 10px;
 
    .config{
