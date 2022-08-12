@@ -1,53 +1,23 @@
-.params{
+.params {
   padding-bottom: 15px;
   display: flex;
   justify-content: space-evenly;
+  gap: 15px;
   &__list{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    & > div {
-      display: flex;
-      gap: 4px;
-      &:before{
-        content: '';
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        background-position: center;
-        background-size: contain;
-        background-repeat: no-repeat;
-      }
+  }
+  &__item{
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    & > p {
+      margin: 0;
     }
-  }
-  &__sunset{
-    &:before{
-      background-image: url('@/assets/icons/sunset.svg');
-    }
-  }
-  &__sunrise{
-    &:before{
-      background-image: url('@/assets/icons/sunrise.svg');
-    }
-  }
-  &__humidity{
-    &:before{
-      background-image: url('@/assets/icons/humidity.svg');
-   }
-  }
-  &__visibility{
-    &:before{
-      background-image: url('@/assets/icons/visibility.svg');
-    }
-  }
-  &__speed{
-    &:before{
-      background-image: url('@/assets/icons/wind.svg');
-    }
-  }
-  &__pressure{
-    &:before{
-      background-image: url('@/assets/icons/pressure.svg');
+    & > img {
+      width: 20px;
+      height: 20px;
     }
   }
 }

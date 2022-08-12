@@ -1,20 +1,26 @@
 <template>
   <div class="params">
     <div class="params__list">
-      <div class="params__speed icon"> {{ setValidParams(config.wind.speed, 'm/s')}} </div>
-      <div class="params__sunset icon"> {{ setValidParams(config.sys.sunset, '', 'date') }} </div>
-      <div class="params__humidity icon"> {{ setValidParams(config.main.humidity, '%') }} </div>
+      <params-item name="wind"> {{ setValidParams(config.wind.speed, 'm/s') }} </params-item>
+
+      <params-item name="sunset"> {{ setValidParams(config.sys.sunset, '', 'date') }} </params-item>
+
+      <params-item name="humidity"> {{ setValidParams(config.main.humidity, '%') }} </params-item>
     </div>
 
     <div class="params__list">
-      <div class="params__pressure icon"> {{ setValidParams(config.main.pressure, 'hpA') }} </div>
-      <div class="params__sunrise icon"> {{ setValidParams(config.sys.sunrise, '', 'date') }} </div>
-      <div class="params__visibility icon"> {{ setValidParams(config.visibility, 'km', 'distance') }} </div>
+      <params-item name="pressure"> {{ setValidParams(config.main.pressure, 'hpA') }} </params-item>
+
+      <params-item name="sunrise"> {{ setValidParams(config.sys.sunrise, '', 'date') }} </params-item>
+      
+      <params-item name="visibility"> {{ setValidParams(config.visibility, 'km', 'distance') }} </params-item>
     </div>
   </div>
 </template>
 
 <script>
+import ParamsItem from './ParamsItem.vue';
+
 export default {
   props: ['config'],
 
@@ -34,7 +40,9 @@ export default {
         }
       }
     }
-  }
+  },
+
+  components: { ParamsItem }
 }
 </script>
 
