@@ -1,6 +1,8 @@
 .weather {
   min-height: 200px;
+  min-width: 240px;
   display: inline-flex;
+  justify-content: center;
   background: linear-gradient(180deg, #6a6d9c 0%, rgba(255, 255, 255, 0) 100%), #1d2362;
   color:#f9ffff;
   border: 0.5px solid #7582F4;
@@ -18,23 +20,21 @@
       justify-content: space-between;
       align-items: flex-start;
     }
-    .settings{
-      &__gear{
-        cursor: pointer;
-        width: 24px;
-        height: 24px;
-        background: url('@/assets/icons/settings.svg') no-repeat;
-        transition: all 0.3s;
-        &:hover{
-          transform: scale(1.15);
-        }
+    &__gear{
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      background: url('@/assets/icons/settings.svg') no-repeat;
+      transition: all 0.3s;
+      &:hover{
+        transform: scale(1.15);
       }
     }
     &__condition{
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
     .condition{
       margin-bottom: 20px;
@@ -53,8 +53,11 @@
          font-size: 30px;
        }
       &__description{
+        width: 100%;
+        text-align: center;
         & > p {
-          margin: 0px;
+          font-size: 18px;
+          margin: 0px 15px;
           padding: 7.5px 15px;
           background-color: rgb(255 255 255 / 9%);
           border-radius: 10px;

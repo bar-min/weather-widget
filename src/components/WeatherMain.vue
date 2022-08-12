@@ -1,8 +1,8 @@
 <template>
   <div class="widget" v-if="!config.settings">
-    <div class="widget__settings settings">
-      <h3 class="settings__location"> {{ config.name }}, {{ config.sys.country }} </h3>
-      <div class="settings__gear" @click="$emit('show-menu', config)"></div>
+    <div class="widget__settings">
+      <h3 class="widget__location"> {{ config.name }}, {{ config.sys.country }} </h3>
+      <div class="widget__gear" @click="$emit('show-menu', config)"></div>
     </div>
     
     <div class="widget__condition condition">
@@ -16,7 +16,7 @@
       <div class="condition__title"> {{ config.weather[0].main }} </div>
 
       <div class="condition__description">
-        <p>Feels like {{ setValidUnits(config.main.feels_like, '\u00B0', 'temp') }} - {{ config.weather[0].description }}.</p>
+        <p>Feels like {{ setValidUnits(config.main.feels_like, '\u00B0', 'temp') }} </p>
       </div>
     </div>
     

@@ -44,6 +44,16 @@
     flex-direction: column;
     gap: 10px;
     margin-bottom: 50px;
+    overflow-y: auto;
+    max-height: 174px;
+    &::-webkit-scrollbar{
+      background-color: #6a6d9c;
+      border-radius: 4px;
+      &-thumb{
+        background: #f2f2f2;
+        border-radius: 4px;
+      }
+    }
   }
   .location {
     display: flex;
