@@ -1,0 +1,120 @@
+.weather {
+  min-height: 200px;
+  display: inline-flex;
+  background: linear-gradient(180deg, #6a6d9c 0%, rgba(255, 255, 255, 0) 100%), #1d2362;
+  color:#f9ffff;
+  border: 0.5px solid #7582F4;
+  border-radius: 40px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 12px 24px;
+  margin: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+
+  .widget{
+    &__settings{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .settings{
+      &__gear{
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        background: url('@/assets/icons/settings.svg') no-repeat;
+        transition: all 0.3s;
+        &:hover{
+          transform: scale(1.15);
+        }
+      }
+    }
+    &__condition{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .condition{
+      margin-bottom: 20px;
+      &__status{
+        display: flex;
+        align-items: center;
+      }
+      &__temp{
+        font-size: 60px;
+        font-weight: 400;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+       }
+       &__title{
+         font-size: 30px;
+       }
+      &__description{
+        & > p {
+          margin: 0px;
+          padding: 7.5px 15px;
+          background-color: rgb(255 255 255 / 9%);
+          border-radius: 10px;
+        }
+      }
+    }
+    &__params{
+      display: flex;
+      justify-content: space-evenly;
+    }
+    .params{
+      padding-bottom: 15px;
+      &__list{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        & > div {
+          display: flex;
+          gap: 4px;
+          &:before{
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+          }
+        }
+      }
+      &__sunset{
+        &:before{
+          background-image: url('@/assets/icons/sunset.svg');
+        }
+      }
+      &__sunrise{
+        &:before{
+          background-image: url('@/assets/icons/sunrise.svg');
+        }
+      }
+      &__humidity{
+        &:before{
+          background-image: url('@/assets/icons/humidity.svg');
+       }
+      }
+      &__visibility{
+        &:before{
+          background-image: url('@/assets/icons/visibility.svg');
+        }
+      }
+      &__speed{
+        &:before{
+          background-image: url('@/assets/icons/wind.svg');
+        }
+      }
+      &__pressure{
+        &:before{
+          background-image: url('@/assets/icons/pressure.svg');
+        }
+      }
+    }
+  }
+}
