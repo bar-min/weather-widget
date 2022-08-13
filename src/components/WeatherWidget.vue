@@ -1,4 +1,5 @@
 <template>
+  <transition-group name="list">
   <div class="weather" v-for="config in weather" :key="config.idx">
     <div class="weather__widget">
       
@@ -19,6 +20,7 @@
 
     </div>
   </div>
+  </transition-group>
 </template>
 
 <script>
@@ -68,7 +70,6 @@ export default {
     },
 
     setWeather(data){
-      data.settings = false;
       data.idx = Date.now();
       this.weather.push(data);
       this.saveWidget();
@@ -95,11 +96,9 @@ export default {
     },
     
     showMenu(widget){
-      this.weather.forEach((item) => {
-        if(item.idx === widget.idx){
+      this.weather.forEach((item, index) => {
+        if(item.idx === widget.idx && !index){
           item.settings = !item.settings;
-        } else {
-          item.settings = false;
         }
       })
     },
@@ -120,6 +119,18 @@ export default {
       if(!this.weather.length) return;
       localStorage.setItem('weather', JSON.stringify(this.weather));
     },
+  },
+
+  watch: {
+    weather: {
+      handler(initial){
+        initial.forEach((item, index) => {
+          item.hasGear = (!index) ? true : false;
+          if(!item.hasGear) item.settings = false;
+        })
+      },
+      deep: true,
+    }
   },
 
   components: { WeatherMenu, WeatherMain }

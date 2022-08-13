@@ -14,11 +14,20 @@
   font-size: 16px;
   font-weight: 400;
 
+  &__widget{
+    flex: 1 1 auto;
+  }
+
   .widget{
     &__settings{
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+    }
+    &__location{
+      font-weight: 500;
+      max-width: 250px;
+      font-size: 20px;
     }
     &__gear{
       cursor: pointer;
