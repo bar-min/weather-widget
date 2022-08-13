@@ -1,0 +1,18 @@
+.list-enter-active{
+  transition: all 0.6s ease-out;
+}
+
+.list-leave-active {
+  transition: all 0.4s ease-in;
+  position: absolute;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.list-move{
+  transition: all 0.6s;
+}
