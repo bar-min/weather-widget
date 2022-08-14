@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import WeatherMenu from './WeatherMenu.vue';
-import WeatherMain from './WeatherMain.vue';
+import WeatherMenu from './WeatherMenu.ce.vue';
+import WeatherMain from './WeatherMain.ce.vue';
 
 export default {
   data(){

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import WeatherIcon from './WeatherIcon.vue';
+import WeatherIcon from './WeatherIcon.ce.vue';
 export default {
   props: ['name'],
 

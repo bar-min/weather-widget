@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import WeatherParams from './WeatherParams.vue';
-import WeatherIcon from './WeatherIcon.vue';
+import WeatherParams from './WeatherParams.ce.vue';
+import WeatherIcon from './WeatherIcon.ce.vue';
 
 export default {
   props: ['config', 'url'],

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import ParamsItem from './ParamsItem.vue';
+import ParamsItem from './ParamsItem.ce.vue';
 
 export default {
   props: ['config'],
