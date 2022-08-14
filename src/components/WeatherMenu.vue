@@ -3,12 +3,12 @@
 
     <div class="menu__header">
       <h3 class="menu__title">Settings</h3>
-      <div @click="$emit('show-menu', config)" class="menu__close" ></div>
+      <weather-icon @click="$emit('show-menu', config)" name="close" :width="24" :height="24" hover></weather-icon>
     </div>
 
     <div class="menu__field">
       <input v-model="city" placeholder="Search location" @keyup.enter="sendValue(city)" />
-      <button @click="sendValue(city)"></button>
+      <weather-icon @click="sendValue(city)" name="enter" :width="24" :height="24"></weather-icon>
     </div>
 
     <div class="menu__locations">
@@ -18,9 +18,11 @@
         @dragover.prevent 
         @dragenter.prevent>
 
-        <div @dragstart='onDrag($event, item)' draggable="true" class="location__move"></div>
+        <div class="location__move" @dragstart='onDrag($event, item)' draggable="true">
+          <weather-icon name="move"></weather-icon>
+        </div>
         <div class="location__city"> {{ item.name }}, {{ item.sys.country }} </div>
-        <div @click="$emit('delete-widget', item.idx)" class="location__remove"></div>
+        <weather-icon @click="$emit('delete-widget', item.idx)" name="remove" :width="24" :height="24" hover></weather-icon>
       </div>
     </div>
 
@@ -28,6 +30,8 @@
 </template>
 
 <script>
+import WeatherIcon from './WeatherIcon.vue';
+
 export default {
   data(){
     return {
@@ -62,6 +66,8 @@ export default {
       this.$emit('move-widget', dropIndex, dragIndex)
     },
   },
+
+  components: { WeatherIcon }
 }
 </script>
 

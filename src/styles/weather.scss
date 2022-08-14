@@ -18,6 +18,14 @@
     flex: 1 1 auto;
   }
 
+  .weather-icon-hover{
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover{
+      transform: scale(1.15);
+    }
+  }
+
   .widget{
     &__settings{
       display: flex;
@@ -28,16 +36,6 @@
       font-weight: 500;
       max-width: 250px;
       font-size: 20px;
-    }
-    &__gear{
-      cursor: pointer;
-      width: 24px;
-      height: 24px;
-      background: url('@/assets/icons/settings.svg') no-repeat;
-      transition: all 0.3s;
-      &:hover{
-        transform: scale(1.15);
-      }
     }
     &__condition{
       display: flex;

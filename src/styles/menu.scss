@@ -4,16 +4,6 @@
     justify-content: space-between;
     align-items: flex-start;
   }
-  &__close{
-    cursor: pointer;
-    width: 24px;
-    height: 24px;
-    background: url('@/assets/icons/close.svg') no-repeat;
-    transition: all 0.3s;
-    &:hover{
-      transform: scale(1.15);
-    }
-  }
   &__field{
     text-align: center;
     margin: 10px 0 20px 0;
@@ -27,16 +17,12 @@
       outline: none;
       border: none;
     }
-    & > button {
+    & > svg {
       cursor: pointer;
       position: absolute;
-      width: 24px;
-      height: 100%;
       border: none;
-      top: 50%;
-      transform: translateY(-50%);
-      background: url('@/assets/icons/enter.svg') center no-repeat;
-      background-size: contain;
+      top: 45%;
+      transform: translateY(-45%);
     }
   }
   &__locations{
@@ -66,23 +52,10 @@
     background-color: rgba(255,255,255, 0.15);
     &__move{
       cursor: pointer;
-      width: 20px;
-      height: 20px;
-      background: url('@/assets/icons/move.svg') center no-repeat;
     }
     &__city{
       max-width: 115px;
       flex: 1 1 auto;
-    }
-    &__remove{
-      cursor: pointer;
-      width: 20px;
-      height: 20px;
-      background: url('@/assets/icons/remove.svg') center no-repeat;
-      transition: all 0.3s;
-      &:hover{
-        transform: scale(1.15);
-      }
     }
   }
 }

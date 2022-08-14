@@ -2,7 +2,10 @@
   <div class="widget" v-if="!config.settings">
     <div class="widget__settings">
       <h3 class="widget__location"> {{ config.name }}, {{ config.sys.country }} </h3>
-      <div class="widget__gear" @click="$emit('show-menu', config)" v-if="config.hasGear && !config.settings"></div>
+      <weather-icon name="gear" hover
+      @click="$emit('show-menu', config)" 
+      v-if="config.hasGear && !config.settings">
+      </weather-icon>
     </div>
     
     <div class="widget__condition condition">
@@ -26,6 +29,7 @@
 
 <script>
 import WeatherParams from './WeatherParams.vue';
+import WeatherIcon from './WeatherIcon.vue';
 
 export default {
   props: ['config', 'url'],
@@ -48,7 +52,7 @@ export default {
     }
   },
 
-  components: { WeatherParams }
+  components: { WeatherParams, WeatherIcon }
 }
 </script>
 
