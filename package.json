@@ -1,10 +1,15 @@
 {
-  "name": "weather-widget",
-  "version": "0.1.0",
-  "private": true,
+  "name": "vue-weather-wc",
+  "description": "A web component that provides simple weather data",
+  "version": "1.0.0",
+  "private": false,
+  "main": "dist/weather.umd.js",
+  "files": ["dist/weather.umd"],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "build-wc": "vue-cli-service build --target wc --name weather --inline-vue src/weather.js",
+    "build-lib": "vue-cli-service build --target lib --name weather src/weather.js"
   },
   "dependencies": {
     "core-js": "^3.8.3",
